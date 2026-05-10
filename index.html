@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HVAC Business Readiness Assessment | Pando Consulting Group</title>
+<link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --navy: #0d1f36;
+  --navy2: #1a3a5c;
+  --teal: #2ec4b6;
+  --teal-l: #e4f7f5;
+  --amber: #f4a621;
+  --amber-l: #fef3e2;
+  --gray-l: #f2f5f8;
+  --gray-l2: #e8eef4;
+  --divider: #d4dde8;
+  --mid: #8493a8;
+  --dark: #1a2b40;
+  --white: #ffffff;
+
+  --score-1: #ef4444;
+  --score-2: #f97316;
+  --score-3: #f59e0b;
+  --score-4: #84cc16;
+  --score-5: #22c55e;
+
+  --score-1-bg: #fee2e2;
+  --score-2-bg: #ffedd5;
+  --score-3-bg: #fef3c7;
+  --score-4-bg: #ecfccb;
+  --score-5-bg: #dcfce7;
+
+  --header-h: 72px;
+  --sidebar-w: 268px;
+  --shadow-sm: 0 1px 2px rgba(13,31,54,0.06);
+  --shadow-md: 0 4px 12px rgba(13,31,54,0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  background: var(--gray-l);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ============ HEADER ============ */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-w);
+  margin-left: -28px;
+  padding-left: 28px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  height: 100%;
+  justify-content: center;
+}
+.brand-name {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  color: var(--white);
+}
+.brand-tag {
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.header-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 28px;
+}
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.header-eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+}
+.header-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.progress-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 18px;
+  border-right: 1px solid rgba(255,255,255,0.12);
+  margin-right: 4px;
+}
+.progress-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+}
+.progress-bar {
+  width: 160px;
+  height: 6px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: var(--teal);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.progress-text {
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+}
+.overall-badge {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 14px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 130px;
+}
+.overall-badge-label {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+}
+.overall-badge-value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+}
+.overall-score {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--white);
+}
+.overall-tier {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--mid);
+  color: var(--white);
+}
+.btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: var(--white);
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:hover { background: rgba(255,255,255,0.12); }
+.btn-primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--navy);
+}
+.btn-primary:hover { background: #25b0a3; }
+.btn-amber {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--navy);
+}
+.btn-amber:hover { background: #db941d; }
+.btn-danger-ghost {
+  border-color: rgba(239,68,68,0.5);
+  color: #fda4a4;
+}
+.btn-danger-ghost:hover {
+  background: rgba(239,68,68,0.15);
+  color: #fff;
+  border-color: rgba(239,68,68,0.7);
+}
+
+.saved-indicator {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--score-5);
+  background: rgba(34,197,94,0.12);
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(34,197,94,0.35);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.saved-indicator.show { opacity: 1; }
+
+.storage-warning {
+  position: fixed;
+  top: var(--header-h);
+  left: 0; right: 0;
+  background: #fef3c7;
+  border-bottom: 2px solid var(--amber);
+  color: var(--dark);
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  z-index: 95;
+  display: none;
+}
+.storage-warning.show { display: block; }
+.storage-warning strong { color: #92400e; }
+.storage-warning.show ~ .main { padding-top: calc(var(--header-h) + 38px); }
+.storage-warning.show ~ .sidebar { top: calc(var(--header-h) + 38px); }
+
+/* ============ SIDEBAR ============ */
+.sidebar {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--white);
+  border-right: 1px solid var(--divider);
+  overflow-y: auto;
+  padding: 20px 0;
+}
+.sidebar-section {
+  padding: 0 20px;
+  margin-bottom: 6px;
+}
+.sidebar-heading {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  font-weight: 700;
+  margin: 4px 0 10px 8px;
+}
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--dark);
+  font-weight: 500;
+  transition: background 0.12s;
+  border: none;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2px;
+}
+.sidebar-item:hover { background: var(--gray-l); }
+.sidebar-item.active {
+  background: var(--teal-l);
+  color: var(--navy);
+  font-weight: 700;
+}
+.sidebar-item.active .sidebar-num {
+  background: var(--teal);
+  color: var(--white);
+}
+.sidebar-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--gray-l);
+  color: var(--mid);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar-title {
+  flex: 1;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-score {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--gray-l);
+  color: var(--mid);
+  flex-shrink: 0;
+}
+.sidebar-score.has-score { color: var(--white); }
+.sidebar-divider {
+  height: 1px;
+  background: var(--divider);
+  margin: 12px 20px;
+}
+
+/* ============ MAIN CONTENT ============ */
+.main {
+  margin-left: var(--sidebar-w);
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+.container {
+  max-width: 880px;
+  padding: 32px 40px 80px;
+  margin: 0 auto;
+}
+
+/* Section header */
+.section-header {
+  margin-bottom: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--divider);
+}
+.section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.section-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+}
+.section-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+.section-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--mid);
+}
+.section-progress-bar {
+  width: 180px;
+  height: 5px;
+  background: var(--gray-l2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.section-progress-fill {
+  height: 100%;
+  background: var(--teal);
+  transition: width 0.3s;
+}
+.section-score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--gray-l);
+  color: var(--mid);
+}
+.section-score-pill.has-score { color: var(--white); }
+
+/* Question card */
+.question-card {
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 22px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.question-card.answered {
+  border-left: 3px solid var(--teal);
+}
+.question-head {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.question-num {
+  font-size: 11px;
+  color: var(--mid);
+  font-weight: 700;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.question-label {
+  flex: 1;
+  font-size: 15px;
+  color: var(--dark);
+  font-weight: 600;
+  line-height: 1.45;
+}
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  background: var(--white);
+  text-align: left;
+  width: 100%;
+  font-size: 13px;
+  color: var(--dark);
+  transition: all 0.15s;
+  line-height: 1.4;
+}
+.option:hover {
+  border-color: var(--mid);
+  background: var(--gray-l);
+}
+.option.selected {
+  background: var(--teal-l);
+  border-color: var(--teal);
+  color: var(--navy);
+  font-weight: 600;
+}
+.option-score {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--gray-l);
+  color: var(--mid);
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.option.selected .option-score {
+  color: var(--white);
+}
+.option[data-score="1"].selected .option-score { background: var(--score-1); }
+.option[data-score="2"].selected .option-score { background: var(--score-2); }
+.option[data-score="3"].selected .option-score { background: var(--score-3); }
+.option[data-score="4"].selected .option-score { background: var(--score-4); }
+.option[data-score="5"].selected .option-score { background: var(--score-5); }
+
+.note-row {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--divider);
+}
+.note-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--mid);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.note-input {
+  width: 100%;
+  border: 1px solid var(--divider);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--dark);
+  resize: vertical;
+  min-height: 48px;
+  background: var(--gray-l);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.note-input:focus { border-color: var(--teal); background: var(--white); }
+
+/* Section nav */
+.section-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--divider);
+}
+.nav-btn {
+  background: var(--white);
+  border: 1px solid var(--divider);
+  padding: 10px 18px;
+  border-radius: 6px;
+  color: var(--dark);
+  font-weight: 600;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+}
+.nav-btn:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.nav-btn:disabled:hover {
+  background: var(--white);
+  color: var(--dark);
+  border-color: var(--divider);
+}
+
+/* ============ SUMMARY VIEW ============ */
+.summary-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+  color: var(--white);
+  padding: 36px 40px;
+  border-radius: 10px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.summary-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  border: 2px solid var(--teal);
+  border-radius: 50%;
+  opacity: 0.2;
+}
+.summary-eyebrow {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.summary-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 18px;
+}
+.summary-score-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.summary-score-num {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--white);
+}
+.summary-score-max {
+  font-size: 22px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.summary-tier {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 6px;
+  margin-left: 8px;
+}
+.summary-meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.highlight-card {
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.highlight-card.strengths { border-top: 3px solid var(--score-5); }
+.highlight-card.gaps { border-top: 3px solid var(--score-1); }
+.highlight-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.strengths .highlight-head { color: var(--score-5); }
+.gaps .highlight-head { color: var(--score-1); }
+.highlight-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.highlight-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--dark);
+}
+.highlight-item:last-child { border-bottom: none; }
+.highlight-score {
+  width: 32px;
+  height: 22px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.highlight-empty {
+  color: var(--mid);
+  font-style: italic;
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.score-table {
+  background: var(--white);
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.score-table-head {
+  background: var(--navy);
+  color: var(--white);
+  padding: 14px 22px;
+  display: grid;
+  grid-template-columns: 30px 1fr 200px 70px 110px;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.score-table-row {
+  padding: 13px 22px;
+  display: grid;
+  grid-template-columns: 30px 1fr 200px 70px 110px;
+  gap: 14px;
+  align-items: center;
+  border-bottom: 1px solid var(--divider);
+  font-size: 13px;
+  color: var(--dark);
+}
+.score-table-row:last-child { border-bottom: none; }
+.score-table-row:nth-child(even) { background: var(--gray-l); }
+.row-num { color: var(--mid); font-weight: 700; }
+.row-title { font-weight: 600; }
+.row-bar {
+  height: 7px;
+  background: var(--gray-l2);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.row-bar-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.row-score { font-weight: 800; font-size: 14px; }
+.row-tier {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 3px;
+  text-align: center;
+  letter-spacing: 0.3px;
+  color: var(--white);
+  width: fit-content;
+}
+
+.score-color-1 { background: var(--score-1); }
+.score-color-2 { background: var(--score-2); }
+.score-color-3 { background: var(--score-3); }
+.score-color-4 { background: var(--score-4); }
+.score-color-5 { background: var(--score-5); }
+.score-color-0 { background: var(--mid); }
+
+.summary-cta {
+  background: var(--gray-l);
+  border-radius: 8px;
+  padding: 24px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.cta-text { flex: 1; min-width: 240px; }
+.cta-title { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.cta-desc { font-size: 13px; color: var(--mid); }
+.cta-actions { display: flex; gap: 10px; }
+.cta-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  border: 1px solid var(--divider);
+  background: var(--white);
+  color: var(--dark);
+  transition: all 0.15s;
+}
+.cta-btn:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.cta-btn.danger { color: var(--score-1); border-color: var(--score-1); }
+.cta-btn.danger:hover { background: var(--score-1); color: var(--white); border-color: var(--score-1); }
+
+/* ============ MODAL ============ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(13,31,54,0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 10px;
+  max-width: 440px;
+  width: 100%;
+  padding: 26px 28px;
+  box-shadow: 0 12px 40px rgba(13,31,54,0.3);
+}
+.modal-head {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.modal-body {
+  font-size: 13px;
+  color: var(--dark);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.modal-warning {
+  background: var(--amber-l);
+  border-left: 3px solid var(--amber);
+  padding: 10px 14px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-top: 12px;
+  color: var(--dark);
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.modal-btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--divider);
+  background: var(--white);
+  color: var(--dark);
+}
+.modal-btn:hover { background: var(--gray-l); }
+.modal-btn.primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--navy);
+}
+.modal-btn.primary:hover { background: #25b0a3; }
+
+@media (max-width: 1100px) {
+  .sidebar { width: 220px; }
+  .main { margin-left: 220px; }
+  .brand { width: 220px; }
+}
+@media (max-width: 900px) {
+  .header { padding: 0 16px; }
+  .brand { display: none; }
+  .header-content { padding-left: 0; }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .container { padding: 24px 18px 60px; }
+  .header-title { display: none; }
+  .progress-box { padding-right: 0; border: none; }
+  .progress-bar { width: 110px; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .score-table-head, .score-table-row { grid-template-columns: 24px 1fr 60px 90px; }
+  .row-bar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-name">PANDO</div>
+    <div class="brand-tag">Consulting Group</div>
+  </div>
+  <div class="header-content">
+    <div class="header-left">
+      <div class="header-eyebrow">HVAC Operational Readiness</div>
+      <div class="header-title">Business Assessment Tool</div>
+    </div>
+    <div class="header-right">
+      <div class="progress-box">
+        <span class="progress-label">Completion</span>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <span class="progress-text" id="progressText">0 of 96</span>
+      </div>
+      <div class="overall-badge">
+        <span class="overall-badge-label">Overall Score</span>
+        <div class="overall-badge-value">
+          <span class="overall-score" id="overallScore">—</span>
+          <span class="overall-tier" id="overallTier">Pending</span>
+        </div>
+      </div>
+      <span class="saved-indicator" id="savedIndicator">Saved &check;</span>
+      <button class="btn" onclick="showSummary()">Summary</button>
+      <button class="btn btn-danger-ghost" onclick="openResetModal()" title="Clear all answers and notes">Reset</button>
+      <button class="btn btn-primary" onclick="openPdfModal()">Generate PDF</button>
+    </div>
+  </div>
+</header>
+
+<div class="storage-warning" id="storageWarning">
+  <strong>Storage unavailable:</strong> Your browser is blocking persistent storage. Answers will be lost when you close this page. Try opening this file in a regular (non-private) browser window.
+</div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-heading">Sections</div>
+    <div id="sidebarItems"></div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="container">
+    <div id="sectionView"></div>
+    <div id="summaryView" style="display:none;"></div>
+  </div>
+</main>
+
+<div class="modal-overlay" id="pdfModal">
+  <div class="modal">
+    <div class="modal-head">Generate PDF Report</div>
+    <div class="modal-body">
+      A landscape PDF report will be generated containing a cover page, executive highlights, and a detailed page for every scored section.
+      <div class="modal-warning" id="pdfWarning" style="display:none;"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closePdfModal()">Cancel</button>
+      <button class="modal-btn primary" onclick="generatePDF()">Generate Report</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <div class="modal-head">Reset Assessment?</div>
+    <div class="modal-body">
+      This will permanently clear <strong>all answers and notes</strong> across every section. Your progress is saved automatically and will persist until you reset it here. <strong>This cannot be undone.</strong>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeResetModal()">Cancel</button>
+      <button class="modal-btn primary" style="background:var(--score-1);border-color:var(--score-1);color:#fff;" onclick="confirmReset()">Yes, Reset Everything</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SECTION DATA — HVAC Business Readiness Assessment
+============================================================ */
+const SECTIONS = [
+  {
+    id: 'ownership',
+    title: 'Ownership History / Family Dynamics',
+    questions: [
+      { id: 'own-1', label: 'When and why was the company started, and how has the business changed over time?',
+        options: [
+          'No documented history; founding story exists only in family memory',
+          'Owner can recount key dates verbally but nothing is written down',
+          'Basic timeline and milestones documented in scattered notes',
+          'Clear written narrative covering major shifts and growth eras',
+          'Comprehensive history with strategy context, lessons, and supporting records'
+        ]},
+      { id: 'own-2', label: 'What roles do the owner and spouse each play today, both formally and informally?',
+        options: [
+          'Roles are entirely informal with no titles, written duties, or hour estimates',
+          'General sense of who does what but no defined scope',
+          'Roles described verbally; partial documentation of duties',
+          'Written job descriptions with defined responsibilities and time allocation',
+          'Documented roles with measurable outputs, cross-coverage, and transition plan'
+        ]},
+      { id: 'own-3', label: 'Are family members involved in ownership, payroll, decision-making, vehicles, expenses, or customer relationships?',
+        options: [
+          'Multiple family members embedded; no documentation of involvement or pay',
+          'Informal family involvement with mixed personal and business expenses',
+          'Family roles known but not formalized in employment or comp records',
+          'Family involvement documented; payroll, expenses, and assets clearly separated',
+          'Fully arms-length family arrangements with employment agreements and clean records'
+        ]},
+      { id: 'own-4', label: 'Are owner and spouse aligned on sale timing, value expectations, post-close involvement, and transition goals?',
+        options: [
+          'No alignment discussion has occurred; conflicting views on key parameters',
+          'Surface-level agreement but no shared written goals',
+          'General alignment on timing or value but not all sale parameters',
+          'Strong alignment on most parameters supported by professional advice',
+          'Fully aligned with documented goals, advisor input, and written transition plan'
+        ]},
+      { id: 'own-5', label: 'Have there been prior succession discussions, family disputes, informal promises, or buyout conversations?',
+        options: [
+          'Unresolved disputes, informal promises, or undocumented buyout obligations exist',
+          'Past conversations occurred but were never resolved or documented',
+          'Some history known and informally addressed but no written records',
+          'Discussions documented and expectations clarified in writing',
+          'All prior commitments resolved, documented, and legally cleared with no overhang'
+        ]},
+      { id: 'own-6', label: 'What part of the business feels obvious to the family but would be hard for an outside buyer to understand?',
+        options: [
+          'Significant tribal knowledge; nothing captured outside the family',
+          'Family aware of gaps but no effort to document',
+          'Some tacit knowledge documented; many routines remain informal',
+          'Most institutional knowledge captured in playbooks and SOPs',
+          'Fully documented operations manual; no critical knowledge tied to family memory'
+        ]}
+    ]
+  },
+  {
+    id: 'sales',
+    title: 'Sales',
+    questions: [
+      { id: 'sales-1', label: 'What percentage of revenue comes from each service line (replacement, service/repair, maintenance, duct, IAQ, water heaters, generators, light commercial)?',
+        options: [
+          'Revenue mix unknown; no breakdown by service line available',
+          'Owner can estimate verbally but no system-level data exists',
+          'Approximate breakdown available but inconsistent across periods',
+          'Service line revenue tracked monthly with margin visibility',
+          'Real-time dashboard with revenue, margin, and trend by service line'
+        ]},
+      { id: 'sales-2', label: 'Who owns the estimate, proposal, pricing, financing, follow-up, and closing process?',
+        options: [
+          'Entirely owner-driven; nobody else can quote or close',
+          'Owner does most of it; one person occasionally helps',
+          'Process shared but inconsistent; relies on owner for pricing or closing',
+          'Defined sales roles with documented handoffs; owner can step away',
+          'Full sales team operates independently with documented playbook'
+        ]},
+      { id: 'sales-3', label: 'Are close rates, lost estimates, and follow-up activity tracked, or managed from memory?',
+        options: [
+          'Nothing tracked; the owner manages by memory',
+          'Some quote logs exist but not analyzed or followed up',
+          'Quotes logged in CRM/software but follow-up is inconsistent',
+          'Close rates tracked by salesperson with active follow-up workflow',
+          'Full pipeline analytics with conversion benchmarks and automated follow-up'
+        ]},
+      { id: 'sales-4', label: 'Are pricing guidelines, proposal templates, discount approvals, and financing options documented?',
+        options: [
+          'No documentation; pricing made up on each job by the owner',
+          'Informal price list exists but discounts and approvals are ad hoc',
+          'Templates and price book exist but inconsistently used',
+          'Documented pricing rules, templates, and discount approval matrix in use',
+          'Fully systemized pricing engine with margin guards and managed financing program'
+        ]},
+      { id: 'sales-5', label: 'Are customer or referral relationships tied to the owner, spouse, one technician, or the company brand?',
+        options: [
+          'Most relationships tied to one person; brand has little independent equity',
+          'Owner-centric relationships with limited brand recognition',
+          'Mix of personal and brand-driven relationships',
+          'Strong brand recognition with relationships shared across multiple staff',
+          'Brand-driven relationships supported by documented customer ownership'
+        ]},
+      { id: 'sales-6', label: 'If the owner stopped selling tomorrow, what percentage of revenue would be at risk?',
+        options: [
+          'More than 75% of revenue would be at risk immediately',
+          '50-75% of revenue would be at risk',
+          '25-50% of revenue at risk; partial coverage exists',
+          'Less than 25% at risk; sales largely covered by team',
+          'No measurable revenue at risk; sales fully team-driven'
+        ]}
+    ]
+  },
+  {
+    id: 'marketing',
+    title: 'Marketing / Lead Generation',
+    questions: [
+      { id: 'mkt-1', label: 'What are the primary lead sources, and what percentage of leads and sold jobs come from each?',
+        options: [
+          'Lead sources unknown; nothing tracked',
+          'Owner can guess at sources but no tracking system exists',
+          'Sources tracked informally with mixed accuracy',
+          'Lead source attribution captured per job in CRM with monthly review',
+          'Full attribution with cost per lead, conversion, and ROI by channel'
+        ]},
+      { id: 'mkt-2', label: 'Is marketing dependent on referrals, repeat customers, search, manufacturer referrals, owner reputation, or spouse follow-up?',
+        options: [
+          'Dependent on a single source (typically owner reputation or referrals)',
+          'Two main sources but heavily concentrated on personal relationships',
+          'Diversified somewhat but reliant on legacy channels',
+          'Balanced mix across paid, organic, referral, and repeat channels',
+          'Diversified channel portfolio with active management and contingency plans'
+        ]},
+      { id: 'mkt-3', label: 'Who manages the website, Google Business Profile, reviews, social media, phone numbers, and credentials?',
+        options: [
+          'Unknown or scattered; no central ownership or password records',
+          'Owner or spouse handles informally with no backup',
+          'One person manages most channels but credentials not fully documented',
+          'Defined roles with documented credentials and shared access',
+          'Marketing manager or vendor manages with documented SOPs and access controls'
+        ]},
+      { id: 'mkt-4', label: 'Are all marketing accounts, domains, tracking numbers, and passwords company-owned and documented?',
+        options: [
+          'Many assets owned personally or by third parties; no inventory exists',
+          'Some assets company-owned but no clear inventory of credentials',
+          'Most accounts company-owned but credentials scattered',
+          'All assets company-owned with documented credential vault',
+          'Full digital asset inventory, company ownership verified, with rotation policy'
+        ]},
+      { id: 'mkt-5', label: 'How are reviews, referrals, and reputation managed, and who handles customer follow-up?',
+        options: [
+          'No systematic review or referral process; nothing measured',
+          'Owner asks for reviews ad hoc; no automation or tracking',
+          'Some review request workflow but inconsistent execution',
+          'Automated review and referral program with regular monitoring',
+          'Full reputation management program with response SLAs and incentive program'
+        ]},
+      { id: 'mkt-6', label: 'What happens if referrals slow down, search rankings drop, or the marketing manager becomes unavailable?',
+        options: [
+          'Single point of failure; business at significant risk',
+          'Significant disruption likely; limited backup channels',
+          'Some disruption manageable but slow to recover',
+          'Multiple channels can absorb a loss with minor impact',
+          'Documented contingency plan with diversified channels and backup vendors'
+        ]}
+    ]
+  },
+  {
+    id: 'customer',
+    title: 'Customer Analysis',
+    questions: [
+      { id: 'cust-1', label: 'How many active customers are in the database, and how many purchased in the last 12, 24, and 36 months?',
+        options: [
+          'Customer count unknown; no usable database exists',
+          'Customer list exists but no recency tracking',
+          'Active customer count known but recency cohorts not analyzed',
+          'Customer cohorts tracked by 12/24/36 month activity with regular review',
+          'Full lifetime value and cohort retention analytics maintained monthly'
+        ]},
+      { id: 'cust-2', label: 'What percentage of revenue comes from repeat customers versus new customers?',
+        options: [
+          'Unknown; no segmentation in place',
+          'Owner can guess but no data confirms',
+          'Approximate split known from informal review',
+          'Repeat versus new revenue tracked monthly with trend visibility',
+          'Repeat versus new analyzed by service line, channel, and customer tenure'
+        ]},
+      { id: 'cust-3', label: 'Are customer history, equipment details, warranties, preferences, and prior service notes consistently documented?',
+        options: [
+          'Inconsistent records; details missing or in technician memory',
+          'Basic customer info captured but service history is patchy',
+          'Most data captured in software but quality varies by user',
+          'Complete customer profiles with equipment, warranties, and notes maintained',
+          'Standardized customer profile with audit checks and complete service history'
+        ]},
+      { id: 'cust-4', label: 'Are any customers, property managers, builders, commercial accounts, or referral partners responsible for a meaningful portion of revenue?',
+        options: [
+          'Heavy concentration with one or two parties driving over 30% of revenue',
+          'Notable concentration with top customer at 15-30% of revenue',
+          'Some concentration with top customer at 10-15%',
+          'Top customer under 10% of revenue with documented backup relationships',
+          'Highly diversified with no single customer over 5% and active diversification plan'
+        ]},
+      { id: 'cust-5', label: 'Which customer relationships are tied to the owner, spouse, or a specific technician?',
+        options: [
+          'Most key relationships tied to one person with no introductions made',
+          'Many relationships personal to the owner; some sharing has happened',
+          'Mix of personal and team-owned customer relationships',
+          'Most key relationships shared with the team; some warm intros completed',
+          'Full account ownership documented; no key relationship tied to one person'
+        ]},
+      { id: 'cust-6', label: 'Would customers continue using the company if the owner and spouse were no longer involved?',
+        options: [
+          'Most would likely leave or shop alternatives',
+          'A meaningful share would test the market',
+          'Most would stay but some would leave; outcome uncertain',
+          'Strong customer loyalty to brand; minimal expected attrition',
+          'Documented brand loyalty with retention data supporting confidence'
+        ]}
+    ]
+  },
+  {
+    id: 'operations',
+    title: 'Operations / Dispatch',
+    questions: [
+      { id: 'ops-1', label: 'How are service calls, estimates, installations, callbacks, warranty work, and maintenance visits scheduled and dispatched?',
+        options: [
+          'Scheduling is informal; managed via texts, calls, and memory',
+          'Basic calendar or notebook used; no central system',
+          'Software used but not consistently across all work types',
+          'Centralized dispatch software used for all work with defined workflows',
+          'Optimized dispatch with real-time routing, capacity planning, and KPIs'
+        ]},
+      { id: 'ops-2', label: 'Who answers phones, books jobs, schedules technicians, communicates with customers, and handles changes?',
+        options: [
+          'One person owns all of it with no backup',
+          'Primarily one person with informal occasional help',
+          'Two people share the load but coverage is uneven',
+          'Defined roles with backup coverage during absence',
+          'Trained office team with documented SOPs and full redundancy'
+        ]},
+      { id: 'ops-3', label: 'What work is managed through software versus memory, texts, notebooks, paper, or verbal routines?',
+        options: [
+          'Most work managed in heads, paper, or text messages',
+          'Some software use but key work still off-system',
+          'Most work in software with notable manual workarounds',
+          'Software is the system of record with limited workarounds',
+          'Single system of record; all work captured digitally with audit trail'
+        ]},
+      { id: 'ops-4', label: 'If the spouse or owner were unavailable for two weeks, what part of office operations would break first?',
+        options: [
+          'Office would essentially shut down within a few days',
+          'Major disruption; most work would stall',
+          'Significant disruption but business could limp along',
+          'Minor disruption; trained team can maintain operations',
+          'No disruption; documented coverage plans and trained staff in place'
+        ]},
+      { id: 'ops-5', label: 'Are job notes, customer communications, estimates, invoices, and follow-ups handled consistently?',
+        options: [
+          'Inconsistent; quality depends entirely on who handles it',
+          'Generally informal; large variance in completeness',
+          'Mostly consistent but no enforced standards',
+          'Standardized templates and processes consistently applied',
+          'Fully standardized with quality checks and documented exceptions'
+        ]},
+      { id: 'ops-6', label: 'Are daily operating routines documented well enough for a new office administrator or manager to step in?',
+        options: [
+          'No documentation exists; learning would be by shadowing',
+          'Minimal notes exist but no comprehensive guide',
+          'Partial documentation covering some routines',
+          'Documented playbook covering most daily routines',
+          'Full operations manual with onboarding plan and training videos'
+        ]}
+    ]
+  },
+  {
+    id: 'field',
+    title: 'Field Operations / Technician Capacity',
+    questions: [
+      { id: 'fld-1', label: 'What work does each technician perform, and are there skills or certifications only one person has?',
+        options: [
+          'Multiple critical certifications or skills held by only one person',
+          'Some single-point skills with no cross-training plan',
+          'Most skills covered by two technicians; gaps in certifications',
+          'Skills cross-trained with redundancy in key certifications',
+          'Documented skills matrix with redundancy and active training pipeline'
+        ]},
+      { id: 'fld-2', label: 'How much revenue capacity would be lost if one technician left?',
+        options: [
+          'More than 50% of capacity at risk if a key technician leaves',
+          '25-50% of capacity would be at risk',
+          '10-25% capacity at risk; partial coverage available',
+          'Under 10% at risk; cross-coverage in place',
+          'No measurable capacity loss; documented redundancy and bench depth'
+        ]},
+      { id: 'fld-3', label: 'Can either technician price work, explain options, collect payment, document notes, and communicate with customers?',
+        options: [
+          'Only the owner can do these tasks; technicians are install-only',
+          'One technician can do some, but pricing or collections require owner',
+          'Most technicians can do most tasks but with inconsistent quality',
+          'All field staff trained on full customer-facing process',
+          'Full training program with measured competency and certification on customer process'
+        ]},
+      { id: 'fld-4', label: 'Are service and installation processes documented, or are they primarily learned by working with the owner?',
+        options: [
+          'No documentation; all learning is by shadowing the owner',
+          'Some checklists exist but most learning is informal',
+          'Process documentation exists but inconsistently used',
+          'Documented service and install procedures used by all field staff',
+          'Comprehensive technical SOPs with training, certification, and version control'
+        ]},
+      { id: 'fld-5', label: 'Who handles difficult diagnoses, complex installs, callbacks, warranty issues, and customer escalations?',
+        options: [
+          'Owner is the only escalation point; nothing happens without owner',
+          'Owner handles most; one technician handles some',
+          'Senior technician handles most issues with owner backup',
+          'Senior tech and service manager share escalations; owner only for major issues',
+          'Documented escalation tree with multiple qualified handlers and clear thresholds'
+        ]},
+      { id: 'fld-6', label: 'Would the technicians stay after a sale, and what would be required to retain them?',
+        options: [
+          'No retention plan; key staff likely to leave on transition',
+          'Some likely to stay but no formal retention strategy',
+          'Most expected to stay but no agreements in place',
+          'Retention plan drafted; verbal commitments from key staff',
+          'Documented retention plan with stay bonuses, equity, or contracts in place'
+        ]}
+    ]
+  },
+  {
+    id: 'quality',
+    title: 'Job Quality / Callback Risk',
+    questions: [
+      { id: 'qua-1', label: 'What percentage of jobs require a callback, warranty claim, return visit, or rework?',
+        options: [
+          'Callback rate unknown; no tracking in place',
+          'Owner believes the rate is acceptable but has no data',
+          'Approximate callback rate tracked but not analyzed',
+          'Callback rate tracked monthly with reviews of root cause',
+          'Callback rate measured under industry benchmark with continuous improvement program'
+        ]},
+      { id: 'qua-2', label: 'Are callbacks tracked by technician, job type, equipment brand, and root cause?',
+        options: [
+          'Not tracked at any level',
+          'Tracked at total volume only; no segmentation',
+          'Tracked by technician but not by root cause',
+          'Tracked by technician, job type, and root cause monthly',
+          'Full callback analytics drives training, process changes, and vendor decisions'
+        ]},
+      { id: 'qua-3', label: 'Who determines whether a job is complete and whether the customer is satisfied?',
+        options: [
+          'No formal sign-off; technician decides',
+          'Technician confirms verbally with customer; nothing recorded',
+          'Customer sign-off captured inconsistently',
+          'Standardized completion checklist and customer sign-off on every job',
+          'Quality assurance review on every job with automated customer satisfaction loop'
+        ]},
+      { id: 'qua-4', label: 'Are install checklists, commissioning procedures, photos, warranty details, and customer sign-offs consistently used?',
+        options: [
+          'No checklists or commissioning protocols in place',
+          'Some checklists exist but use is sporadic',
+          'Checklists used inconsistently; photos optional',
+          'Standard checklists used on every install with photos and sign-off',
+          'Full digital commissioning with photos, telemetry, warranty registration, and sign-off'
+        ]},
+      { id: 'qua-5', label: 'Is quality control dependent on the owner or one senior technician?',
+        options: [
+          'Quality is entirely dependent on the owner',
+          'Owner or one senior tech is the only quality check',
+          'Quality is partly process-driven with owner backstop',
+          'Quality control built into process with multiple qualified reviewers',
+          'Process-driven QC with audits, KPIs, and no single-point dependency'
+        ]},
+      { id: 'qua-6', label: 'How much gross margin is lost annually to callbacks, warranty work, free labor, and rework?',
+        options: [
+          'Loss unknown; not measured or reported',
+          'Loss estimated by owner but not validated',
+          'Loss approximately measured but not isolated by cause',
+          'Loss tracked monthly with trend visibility',
+          'Loss measured and benchmarked with documented mitigation plan'
+        ]}
+    ]
+  },
+  {
+    id: 'maintenance',
+    title: 'Maintenance Agreements / Recurring Revenue',
+    questions: [
+      { id: 'mnt-1', label: 'How many active maintenance agreements does the company have?',
+        options: [
+          'Unknown count; no central list of agreements',
+          'Approximate count known from memory or notebook',
+          'List exists but accuracy is uncertain',
+          'Accurate active agreement count maintained in software',
+          'Real-time agreement metrics with cohort and retention analysis'
+        ]},
+      { id: 'mnt-2', label: 'Who sells, renews, schedules, tracks, and follows up on maintenance agreements?',
+        options: [
+          'No clear ownership; agreements handled informally',
+          'Owner or spouse handles all of it personally',
+          'Defined person owns part of the cycle but not all',
+          'Dedicated owner with documented renewal and scheduling workflow',
+          'Full lifecycle managed with automation, KPIs, and clear accountability'
+        ]},
+      { id: 'mnt-3', label: 'Are agreement terms, renewal dates, pricing, and customer communication documented in a system?',
+        options: [
+          'Not documented in any system; lives in spreadsheets or memory',
+          'Basic list with renewal dates but no pricing or terms detail',
+          'Most details captured in software with some gaps',
+          'Full agreement details in software with automated reminders',
+          'Complete digital agreement vault with signed contracts, automation, and audit trail'
+        ]},
+      { id: 'mnt-4', label: 'Are maintenance agreements profitable on their own, or mainly used to generate future service and replacement work?',
+        options: [
+          'Profitability unknown at any level',
+          'Believed profitable in aggregate but no analysis',
+          'Profitability estimated but not by tier or service line',
+          'Profit margin tracked per agreement type',
+          'Full unit economics analyzed including pull-through revenue and lifetime value'
+        ]},
+      { id: 'mnt-5', label: 'Can the company identify replacement opportunities inside the maintenance customer base?',
+        options: [
+          'No visibility into equipment age or replacement likelihood',
+          'Sense of opportunities exists in technicians heads',
+          'Some equipment data captured; ad hoc opportunity reviews',
+          'Equipment data captured with regular replacement opportunity reports',
+          'Predictive equipment lifecycle data drives proactive replacement marketing'
+        ]},
+      { id: 'mnt-6', label: 'What would happen to the program if the spouse, owner, or person managing it stepped away?',
+        options: [
+          'Program would likely fail or stagnate',
+          'Significant disruption; renewals and follow-up would suffer',
+          'Some disruption but program could be partially maintained',
+          'Minimal disruption; documented process can be picked up by another person',
+          'Fully systemized; program runs without dependence on any one individual'
+        ]}
+    ]
+  },
+  {
+    id: 'pricing',
+    title: 'Pricing / Gross Margin',
+    questions: [
+      { id: 'prc-1', label: 'How are service, install, maintenance, and equipment pricing determined?',
+        options: [
+          'Pricing made up by the owner on each job',
+          'Loose price guidelines exist but applied inconsistently',
+          'Documented price book used most of the time',
+          'Standardized pricing using flat-rate book with margin targets',
+          'Dynamic pricing with margin targets, cost-loading, and regular benchmarking'
+        ]},
+      { id: 'prc-2', label: 'Is pricing based on a documented formula, flat-rate book, vendor cost, labor burden, margin target, or owner judgment?',
+        options: [
+          'Owner judgment only; no documented basis',
+          'Some informal rules but not consistently applied',
+          'Pricing logic exists but not fully documented',
+          'Documented pricing formula incorporating cost, burden, and margin target',
+          'Comprehensive pricing model with regular review and competitive benchmarking'
+        ]},
+      { id: 'prc-3', label: 'Who approves discounts, warranty concessions, free work, exceptions, or "family/friend" pricing?',
+        options: [
+          'No approval process; anyone can discount',
+          'Owner approves verbally with no record',
+          'Approval process exists but inconsistently followed',
+          'Documented approval matrix with margin guardrails',
+          'Tiered approval with system enforcement, audit trail, and exception reporting'
+        ]},
+      { id: 'prc-4', label: 'Are gross margins tracked by job type, technician, equipment category, and service line?',
+        options: [
+          'Margins not tracked at any level',
+          'Margins tracked at total company level only',
+          'Tracked by service line but not technician or equipment',
+          'Tracked by service line, technician, and job type monthly',
+          'Real-time margin analytics with technician-level scorecards and trend tracking'
+        ]},
+      { id: 'prc-5', label: 'Are vendor rebates, manufacturer incentives, financing fees, warranty costs, and labor overruns included in margin analysis?',
+        options: [
+          'None of these factored into margin calculations',
+          'Some included but inconsistently',
+          'Most included but methodology varies',
+          'All factored in with documented methodology',
+          'Full burdened margin model with monthly reconciliation and accuracy controls'
+        ]},
+      { id: 'prc-6', label: 'Could someone other than the owner price a replacement install accurately and profitably?',
+        options: [
+          'Only the owner can price installs; nobody else trained',
+          'Owner is the primary; one other person can attempt',
+          'Two or three people can price with owner review',
+          'Multiple staff can price installs accurately within margin guardrails',
+          'Standardized pricing tool ensures any trained estimator hits margin targets'
+        ]}
+    ]
+  },
+  {
+    id: 'compliance',
+    title: 'Governance / Compliance',
+    questions: [
+      { id: 'cmp-1', label: 'Are licenses, insurance, bonding, permits, EPA certifications, and contractor registrations current and documented?',
+        options: [
+          'Multiple items expired or unverified',
+          'Most current but documentation is scattered',
+          'All current but renewal tracking is manual',
+          'All current with documented expiration tracking',
+          'Compliance dashboard with automated reminders and audit-ready file vault'
+        ]},
+      { id: 'cmp-2', label: 'Who manages renewals, filings, permits, insurance updates, safety records, and compliance deadlines?',
+        options: [
+          'Owner or spouse handles informally with no backup',
+          'One person manages but no documented process',
+          'Documented process but single point of failure',
+          'Defined owner with backup coverage and documented checklist',
+          'Compliance officer or system manages all renewals with full redundancy'
+        ]},
+      { id: 'cmp-3', label: 'Are compliance deadlines tracked in software or primarily in the owner/spouse memory?',
+        options: [
+          'Tracked entirely in memory or paper',
+          'Tracked in scattered spreadsheets',
+          'Tracked in central spreadsheet but no automation',
+          'Tracked in software with automated reminders',
+          'Real-time compliance management system with alerts and reporting'
+        ]},
+      { id: 'cmp-4', label: 'Are safety procedures documented for refrigerant handling, electrical work, ladders, vehicles, attics, crawlspaces, and customer property?',
+        options: [
+          'No documented safety procedures',
+          'Verbal safety expectations only',
+          'Some written procedures but not comprehensive',
+          'Comprehensive written safety program in active use',
+          'Documented program with training, audits, incident tracking, and review cycle'
+        ]},
+      { id: 'cmp-5', label: 'Are there any pending claims, disputes, warranty liabilities, employee issues, family obligations, or customer complaints?',
+        options: [
+          'Multiple unresolved issues with potential financial exposure',
+          'A few unresolved items with unclear exposure',
+          'Some issues known and being managed',
+          'No material open items; minor issues being resolved',
+          'No open issues; clean record with documented resolution history'
+        ]},
+      { id: 'cmp-6', label: 'What compliance or documentation gap would concern a buyer most?',
+        options: [
+          'Multiple major gaps a buyer would identify in diligence',
+          'One or two notable gaps requiring remediation',
+          'Some moderate gaps that need attention',
+          'Minor gaps already on a remediation plan',
+          'No material gaps; diligence-ready compliance posture'
+        ]}
+    ]
+  },
+  {
+    id: 'hr',
+    title: 'Human Resources / Management',
+    questions: [
+      { id: 'hr-1', label: 'What are the current responsibilities of the owner, spouse, each technician, and any part-time or family support?',
+        options: [
+          'Responsibilities undocumented; understood only by who does it',
+          'Verbal understanding of roles; no written record',
+          'Some documentation but coverage is incomplete',
+          'Documented org chart and role descriptions for all staff',
+          'Full org chart, RACI matrix, and time allocation documented and current'
+        ]},
+      { id: 'hr-2', label: 'Which person is hardest to replace and why?',
+        options: [
+          'Owner or one staff member is irreplaceable; departure would devastate the business',
+          'A few hard-to-replace people with no succession plan',
+          'Some key people identified; partial mitigation in progress',
+          'Key risks identified with active succession planning',
+          'No single point of failure; fully cross-trained team with bench'
+        ]},
+      { id: 'hr-3', label: 'Are hiring, onboarding, training, compensation, incentives, and performance expectations documented?',
+        options: [
+          'Nothing documented; all HR practices are informal',
+          'Basic docs for some areas but most is verbal',
+          'Most areas documented but inconsistently used',
+          'Documented HR program in active use across hiring, onboarding, and review',
+          'Full HR system with handbook, training program, performance reviews, and incentive structure'
+        ]},
+      { id: 'hr-4', label: 'Are any family members paid by the company who are not actively working in the business?',
+        options: [
+          'Yes, multiple non-working family members on payroll',
+          'One non-working family member receiving compensation',
+          'Some compensation arrangements unclear',
+          'All paid family members actively work; arrangements documented',
+          'All compensation tied to documented work; clean payroll with no irregularities'
+        ]},
+      { id: 'hr-5', label: 'Does anyone besides the owner have authority to manage people, make decisions, and resolve issues?',
+        options: [
+          'No, the owner is the sole decision-maker',
+          'Owner makes all decisions; others execute',
+          'Some delegation exists but limited in scope',
+          'Multiple managers empowered to make decisions within defined scope',
+          'Full management team with documented authority levels and decision rights'
+        ]},
+      { id: 'hr-6', label: 'Who would lead the company on day one after a transaction?',
+        options: [
+          'No identified successor; leadership gap on day one',
+          'Possible successor but not prepared',
+          'Internal candidate identified but needs development',
+          'Successor identified, qualified, and informed',
+          'Successor in place with active transition plan and demonstrated capability'
+        ]}
+    ]
+  },
+  {
+    id: 'tech',
+    title: 'Tech Stack / Data',
+    questions: [
+      { id: 'tch-1', label: 'What software is used for customer records, dispatch, estimates, invoices, accounting, payroll, inventory, reporting, and marketing?',
+        options: [
+          'Mostly paper, spreadsheets, and informal tools',
+          'A few key systems but heavy spreadsheet usage',
+          'Most functions in software but with overlap and gaps',
+          'Integrated software stack covering all major functions',
+          'Best-in-class integrated stack with documented data flows and automation'
+        ]},
+      { id: 'tch-2', label: 'Is critical information housed in software, spreadsheets, paper files, notebooks, text messages, or memory?',
+        options: [
+          'Most critical info in heads, paper, or text messages',
+          'Mix of software and paper with significant manual processes',
+          'Most info in software with notable manual workarounds',
+          'Software is primary system of record across all functions',
+          'Single source of truth with controlled data integrity and backups'
+        ]},
+      { id: 'tch-3', label: 'Who controls administrator access, passwords, subscriptions, customer data, domain names, and vendor accounts?',
+        options: [
+          'Access is informal; passwords known by one or two people',
+          'Some inventory exists but credentials not centrally managed',
+          'Most credentials documented but rotation is informal',
+          'Centralized credential vault with role-based access',
+          'Enterprise-grade access management with SSO, MFA, and audit logs'
+        ]},
+      { id: 'tch-4', label: 'Can the company quickly produce revenue by service line, gross margin by job type, technician productivity, callbacks, lead source, and maintenance agreement reports?',
+        options: [
+          'None of these reports available without significant manual effort',
+          'A few reports available but require manual building',
+          'Most reports available but some are manual',
+          'All reports available on demand from system',
+          'Real-time dashboards available to leadership with drill-down capability'
+        ]},
+      { id: 'tch-5', label: 'Is there one person who understands how the systems, reports, billing, dispatch, or customer records actually work?',
+        options: [
+          'Yes, one person holds all the system knowledge',
+          'One primary person with limited backup',
+          'Two people share knowledge unevenly',
+          'Multiple staff trained on systems with documented procedures',
+          'System knowledge fully documented; not dependent on any one person'
+        ]},
+      { id: 'tch-6', label: 'What data gap would make buyer diligence harder or less reliable?',
+        options: [
+          'Multiple major data gaps would impede diligence',
+          'A few significant data gaps require manual reconstruction',
+          'Some moderate gaps but most data available',
+          'Minor gaps; data is largely diligence-ready',
+          'Diligence-ready data set with documented integrity controls'
+        ]}
+    ]
+  },
+  {
+    id: 'vendor',
+    title: 'Vendor / Manufacturer Relationships',
+    questions: [
+      { id: 'vnd-1', label: 'Who are the primary equipment, parts, and supply vendors?',
+        options: [
+          'Vendor list undocumented; lives in owner memory',
+          'Basic list exists but contact and contract info scattered',
+          'Vendor list documented with primary contacts',
+          'Full vendor inventory with contracts, terms, and contacts',
+          'Strategic vendor management with scorecards, alternatives, and active relationships'
+        ]},
+      { id: 'vnd-2', label: 'Are purchasing terms, rebates, warranties, credits, and pricing agreements documented?',
+        options: [
+          'Terms not documented; verbal arrangements only',
+          'Some terms in writing but no central record',
+          'Most terms documented but not actively managed',
+          'All vendor terms documented and reviewed periodically',
+          'Centralized contract management with rebate tracking and renegotiation cadence'
+        ]},
+      { id: 'vnd-3', label: 'Are vendor relationships tied to the owner personally?',
+        options: [
+          'All key vendor relationships are owner-personal',
+          'Most relationships are owner-personal; some shared',
+          'Mix of owner-personal and company-level relationships',
+          'Most relationships at company level with multiple staff contacts',
+          'All vendor relationships are company-owned with documented account ownership'
+        ]},
+      { id: 'vnd-4', label: 'What percentage of equipment sales is tied to one manufacturer or supplier?',
+        options: [
+          'Over 75% concentrated with one manufacturer',
+          '50-75% concentrated with one supplier',
+          '25-50% concentrated; some diversification',
+          'Under 25% concentrated; healthy diversification',
+          'Diversified vendor portfolio with documented strategy and competitive sourcing'
+        ]},
+      { id: 'vnd-5', label: 'Are there alternative suppliers if the primary vendor cannot meet demand?',
+        options: [
+          'No backup vendors identified; single-source risk',
+          'Alternatives known but no relationships established',
+          'Some backup relationships exist but not tested',
+          'Active relationships with backup vendors',
+          'Multiple qualified vendors per category with regular performance comparison'
+        ]},
+      { id: 'vnd-6', label: 'Would any vendor terms, rebates, credit limits, or manufacturer status change after a sale?',
+        options: [
+          'Major terms or status would likely change',
+          'Some material terms at risk of change',
+          'Minor changes likely but manageable',
+          'Most terms expected to transfer with proper notification',
+          'Confirmed transferability documented; no material change risk'
+        ]}
+    ]
+  },
+  {
+    id: 'fleet',
+    title: 'Fleet / Equipment / Assets',
+    questions: [
+      { id: 'flt-1', label: 'How many service vehicles, install vehicles, trailers, tools, and major pieces of equipment does the company use?',
+        options: [
+          'No central asset list; relies on memory',
+          'Partial list exists but is outdated',
+          'Asset list current but lacks depreciation or value detail',
+          'Full asset register maintained with details and value',
+          'Real-time asset register with maintenance, value, and lifecycle tracking'
+        ]},
+      { id: 'flt-2', label: 'Are vehicles and equipment owned by the company, personally owned, leased, or financed?',
+        options: [
+          'Mix of personal and company-owned with no clear separation',
+          'Mostly company-owned but some personal assets used',
+          'All company-owned but financing or lease terms unclear',
+          'All company-owned with clear documentation of all financing and leases',
+          'Clean asset structure with documented ownership, financing, and lease terms'
+        ]},
+      { id: 'flt-3', label: 'Are any family-owned assets used in the business?',
+        options: [
+          'Yes, multiple family-owned assets used without formal arrangement',
+          'A few family-owned assets used informally',
+          'One or two family-owned assets with informal use agreements',
+          'Family-owned assets formally leased to the company',
+          'No family-owned assets used; all business assets are company-owned'
+        ]},
+      { id: 'flt-4', label: 'Are fleet maintenance records, insurance, registration, fuel cards, and replacement needs documented?',
+        options: [
+          'Records are scattered or missing',
+          'Some records kept but inconsistent',
+          'Most records maintained but no replacement plan',
+          'Complete records with documented replacement plan',
+          'Fleet management system with telematics, costs, and replacement modeling'
+        ]},
+      { id: 'flt-5', label: 'Who manages vehicle readiness, repairs, tools, equipment, and asset tracking?',
+        options: [
+          'No assigned owner; managed reactively',
+          'Owner handles informally as issues arise',
+          'One person owns it but no documented process',
+          'Defined owner with documented maintenance and tracking process',
+          'Fleet manager or vendor with full SLA, KPIs, and reporting'
+        ]},
+      { id: 'flt-6', label: 'Would a buyer need to invest in vehicles, tools, or equipment immediately after closing?',
+        options: [
+          'Major investment required immediately to maintain operations',
+          'Significant investment needed within first year',
+          'Some investment needed within 18-24 months',
+          'Minor investment needed; fleet is in good shape',
+          'No immediate investment needed; fleet is well-maintained and current'
+        ]}
+    ]
+  },
+  {
+    id: 'reliance',
+    title: 'Owner / Spouse Reliance',
+    questions: [
+      { id: 'rel-1', label: 'What daily responsibilities would stop or slow down if the owner were unavailable?',
+        options: [
+          'Most operations would stop within days',
+          'Major slowdowns; many functions depend on owner',
+          'Some functions would slow; others continue',
+          'Minimal disruption; team can cover most owner duties',
+          'No disruption; owner role is supervisory, not operational'
+        ]},
+      { id: 'rel-2', label: 'What daily responsibilities would stop or slow down if the spouse were unavailable?',
+        options: [
+          'Most office operations would stop within days',
+          'Major office disruption likely',
+          'Some functions would slow but business could limp along',
+          'Minimal disruption; trained staff can cover spouse duties',
+          'No disruption; spouse role fully covered by trained staff'
+        ]},
+      { id: 'rel-3', label: 'Which customer, vendor, employee, referral, and community relationships are personally tied to the owner or spouse?',
+        options: [
+          'Most key relationships personal; little transferred to brand or staff',
+          'Many personal relationships; few introductions made',
+          'Mix of personal and brand-level relationships',
+          'Most relationships at brand level with personal relationships being transitioned',
+          'All key relationships are brand-level or formally transitioned to staff'
+        ]},
+      { id: 'rel-4', label: 'What knowledge exists only in the owner or spouse heads?',
+        options: [
+          'Significant institutional knowledge undocumented',
+          'Many critical processes and decisions are tribal',
+          'Some knowledge gaps but documentation in progress',
+          'Most knowledge documented; minor gaps remain',
+          'Comprehensive documentation; no critical knowledge tied to owner or spouse'
+        ]},
+      { id: 'rel-5', label: 'What responsibilities must be transferred before a buyer would view the business as transferable?',
+        options: [
+          'Major transfer effort needed across multiple functions',
+          'Several key responsibilities still need transfer planning',
+          'Some responsibilities being transferred; gaps remain',
+          'Most responsibilities transferred or in active transition',
+          'All key responsibilities transferred or covered by documented systems'
+        ]},
+      { id: 'rel-6', label: 'Are the owner and spouse willing and able to support a structured transition after closing?',
+        options: [
+          'No transition support planned; owners want to exit immediately',
+          'Limited transition support discussed',
+          'Some transition support planned but not formalized',
+          'Structured transition support agreed in principle',
+          'Documented transition plan with clear scope, duration, and support model'
+        ]}
+    ]
+  },
+  {
+    id: 'redflags',
+    title: 'Buyer-Level Red Flags',
+    questions: [
+      { id: 'rf-1', label: 'Is the buyer acquiring a scalable company or primarily buying the owner job?',
+        options: [
+          'Buying the owner job; minimal transferable enterprise',
+          'Mostly an owner job with some transferable elements',
+          'Mix of transferable assets and owner-dependent components',
+          'Largely scalable business with minor owner dependencies',
+          'Fully scalable enterprise with documented systems and team-driven operations'
+        ]},
+      { id: 'rf-2', label: 'What is the most important role with no backup?',
+        options: [
+          'Multiple critical roles have no backup',
+          'One or two critical roles have no backup',
+          'Some roles have partial backup',
+          'All key roles have at least partial coverage',
+          'All roles have full backup with documented succession'
+        ]},
+      { id: 'rf-3', label: 'What process exists only in someone head?',
+        options: [
+          'Many critical processes are entirely tribal',
+          'Several key processes undocumented',
+          'A few important processes still informal',
+          'Most processes documented with minor gaps',
+          'All material processes are documented and transferable'
+        ]},
+      { id: 'rf-4', label: 'What customer, employee, vendor, family, or system dependency would create the most disruption if lost?',
+        options: [
+          'Multiple high-impact dependencies with no mitigation',
+          'A few dependencies create material exposure',
+          'Some dependencies present; partial mitigation in place',
+          'Dependencies identified with mitigation plan',
+          'All key dependencies mitigated; no single point of catastrophic failure'
+        ]},
+      { id: 'rf-5', label: 'What would a buyer use to negotiate a lower purchase price?',
+        options: [
+          'Multiple structural issues a buyer would discount heavily',
+          'Several material issues that would impact valuation',
+          'Some issues that would create negotiation pressure',
+          'Minor issues that may create modest price adjustment',
+          'No material issues; clean diligence story supports full valuation'
+        ]},
+      { id: 'rf-6', label: 'What should be fixed in the next 90 to 180 days to protect value before going to market?',
+        options: [
+          'Major remediation needed across multiple areas',
+          'Several significant items requiring 90-180 day work',
+          'Moderate list of items to address pre-market',
+          'Short, focused list of fixes already in motion',
+          'Business is market-ready; no material pre-sale fixes needed'
+        ]}
+    ]
+  }
+];
+
+const TIERS = [
+  { name: 'Not Ready', color: '#ef4444', bg: '#fee2e2', cls: 'score-color-1' },
+  { name: 'Early', color: '#f97316', bg: '#ffedd5', cls: 'score-color-2' },
+  { name: 'Functional', color: '#f59e0b', bg: '#fef3c7', cls: 'score-color-3' },
+  { name: 'Strong', color: '#84cc16', bg: '#ecfccb', cls: 'score-color-4' },
+  { name: 'Investor-Grade', color: '#22c55e', bg: '#dcfce7', cls: 'score-color-5' }
+];
+
+const TOTAL_Q = SECTIONS.reduce((s, sec) => s + sec.questions.length, 0);
+const STORAGE_KEY = 'pando_hvac_assessment_v1';
+
+let state = {
+  answers: {},
+  notes: {},
+  currentSection: 0,
+  view: 'section'
+};
+
+/* ============================================================
+   STATE PERSISTENCE
+   - Saves to localStorage on every change (answer, note, navigation)
+   - Detects when storage is blocked and shows a warning
+   - beforeunload save catches any pending writes on close/refresh
+   - Data is ONLY cleared via the Reset button
+============================================================ */
+let storageAvailable = false;
+let savedIndicatorTimer = null;
+
+function checkStorage() {
+  try {
+    const testKey = '__pando_storage_test__';
+    localStorage.setItem(testKey, '1');
+    localStorage.removeItem(testKey);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function flashSaved() {
+  const el = document.getElementById('savedIndicator');
+  if (!el) return;
+  el.classList.add('show');
+  if (savedIndicatorTimer) clearTimeout(savedIndicatorTimer);
+  savedIndicatorTimer = setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function persistState() {
+  if (!storageAvailable) return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch (e) {
+    console.warn('Persist failed', e);
+    // Storage might have become unavailable mid-session (quota exceeded, etc.)
+    storageAvailable = false;
+    document.getElementById('storageWarning').classList.add('show');
+  }
+}
+
+function loadState() {
+  if (!storageAvailable) return;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const loaded = JSON.parse(raw);
+      state = Object.assign(state, loaded);
+    }
+  } catch (e) { console.warn('Load failed', e); }
+}
+
+/* ============================================================
+   SCORING HELPERS
+============================================================ */
+function scoreColor(score) {
+  if (score >= 4.5) return '#22c55e';
+  if (score >= 3.5) return '#84cc16';
+  if (score >= 2.5) return '#f59e0b';
+  if (score >= 1.5) return '#f97316';
+  return '#ef4444';
+}
+function scoreBgClass(score) {
+  if (score >= 4.5) return 'score-color-5';
+  if (score >= 3.5) return 'score-color-4';
+  if (score >= 2.5) return 'score-color-3';
+  if (score >= 1.5) return 'score-color-2';
+  return 'score-color-1';
+}
+function scoreColorClass(score) {
+  if (score >= 4.5) return 'score-color-5';
+  if (score >= 3.5) return 'score-color-4';
+  if (score >= 2.5) return 'score-color-3';
+  if (score >= 1.5) return 'score-color-2';
+  return 'score-color-1';
+}
+function scoreTier(score) {
+  if (score >= 4.5) return 'Investor-Grade';
+  if (score >= 3.5) return 'Strong';
+  if (score >= 2.5) return 'Functional';
+  if (score >= 1.5) return 'Early';
+  return 'Not Ready';
+}
+function sectionScore(sec) {
+  const scores = sec.questions.map(q => state.answers[q.id]).filter(s => s);
+  if (scores.length === 0) return 0;
+  return scores.reduce((a, b) => a + b, 0) / scores.length;
+}
+function sectionAnswered(sec) {
+  return sec.questions.filter(q => state.answers[q.id]).length;
+}
+function overallScore() {
+  const all = Object.values(state.answers);
+  if (all.length === 0) return 0;
+  return all.reduce((a, b) => a + b, 0) / all.length;
+}
+function totalAnswered() { return Object.keys(state.answers).length; }
+
+/* ============================================================
+   RENDER — HEADER
+============================================================ */
+function renderHeader() {
+  const answered = totalAnswered();
+  const pct = (answered / TOTAL_Q) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${answered} of ${TOTAL_Q}`;
+
+  const score = overallScore();
+  const overallEl = document.getElementById('overallScore');
+  const tierEl = document.getElementById('overallTier');
+  if (answered === 0) {
+    overallEl.textContent = '—';
+    tierEl.textContent = 'Pending';
+    tierEl.style.background = 'rgba(255,255,255,0.18)';
+  } else {
+    overallEl.textContent = score.toFixed(2);
+    tierEl.textContent = scoreTier(score);
+    tierEl.style.background = scoreColor(score);
+  }
+}
+
+/* ============================================================
+   RENDER — SIDEBAR
+============================================================ */
+function renderSidebar() {
+  const wrap = document.getElementById('sidebarItems');
+  wrap.innerHTML = '';
+  SECTIONS.forEach((sec, i) => {
+    const score = sectionScore(sec);
+    const answered = sectionAnswered(sec);
+    const total = sec.questions.length;
+    const isActive = state.view === 'section' && state.currentSection === i;
+    const btn = document.createElement('button');
+    btn.className = 'sidebar-item' + (isActive ? ' active' : '');
+    btn.onclick = () => goToSection(i);
+    let scoreHtml = '';
+    if (answered === total) {
+      scoreHtml = `<span class="sidebar-score has-score" style="background:${scoreColor(score)}">${score.toFixed(1)}</span>`;
+    } else if (answered > 0) {
+      scoreHtml = `<span class="sidebar-score">${answered}/${total}</span>`;
+    } else {
+      scoreHtml = `<span class="sidebar-score">—</span>`;
+    }
+    btn.innerHTML = `
+      <span class="sidebar-num">${i + 1}</span>
+      <span class="sidebar-title">${sec.title}</span>
+      ${scoreHtml}
+    `;
+    wrap.appendChild(btn);
+  });
+}
+
+/* ============================================================
+   RENDER — SECTION VIEW
+============================================================ */
+function renderSection() {
+  const sec = SECTIONS[state.currentSection];
+  const view = document.getElementById('sectionView');
+  const answered = sectionAnswered(sec);
+  const total = sec.questions.length;
+  const score = sectionScore(sec);
+  const pct = (answered / total) * 100;
+
+  let scorePillHtml = '';
+  if (answered === total) {
+    scorePillHtml = `<span class="section-score-pill has-score" style="background:${scoreColor(score)}">
+      ${score.toFixed(2)} · ${scoreTier(score)}</span>`;
+  } else {
+    scorePillHtml = `<span class="section-score-pill">Pending · ${answered}/${total} answered</span>`;
+  }
+
+  let html = `
+    <div class="section-header">
+      <div class="section-eyebrow">Section ${state.currentSection + 1} of ${SECTIONS.length}</div>
+      <h1 class="section-title">${sec.title}</h1>
+      <div class="section-meta">
+        <div class="section-progress">
+          <span>${answered} of ${total} answered</span>
+          <div class="section-progress-bar"><div class="section-progress-fill" style="width:${pct}%"></div></div>
+        </div>
+        ${scorePillHtml}
+      </div>
+    </div>
+  `;
+
+  sec.questions.forEach((q, qi) => {
+    const selected = state.answers[q.id];
+    const noteVal = state.notes[q.id] || '';
+    html += `
+      <div class="question-card${selected ? ' answered' : ''}">
+        <div class="question-head">
+          <div class="question-num">Q${qi + 1}</div>
+          <div class="question-label">${q.label}</div>
+        </div>
+        <div class="options-list">
+    `;
+    q.options.forEach((opt, oi) => {
+      const sc = oi + 1;
+      const isSel = selected === sc;
+      html += `
+        <button class="option${isSel ? ' selected' : ''}" data-score="${sc}"
+                onclick="selectOption('${q.id}', ${sc})">
+          <span class="option-score">${sc}</span>
+          <span>${opt}</span>
+        </button>
+      `;
+    });
+    html += `
+        </div>
+        <div class="note-row">
+          <div class="note-label">Notes (optional)</div>
+          <textarea class="note-input" placeholder="Capture context, examples, or follow-ups..."
+                    onchange="saveNote('${q.id}', this.value)"
+                    oninput="saveNote('${q.id}', this.value)">${noteVal}</textarea>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="section-nav">
+      <button class="nav-btn" onclick="prevSection()" ${state.currentSection === 0 ? 'disabled' : ''}>
+        ← Previous
+      </button>
+      <button class="nav-btn" onclick="nextSection()" ${state.currentSection === SECTIONS.length - 1 ? 'disabled' : ''}>
+        Next →
+      </button>
+    </div>
+  `;
+
+  view.innerHTML = html;
+}
+
+/* ============================================================
+   RENDER — SUMMARY VIEW
+============================================================ */
+function renderSummary() {
+  const view = document.getElementById('summaryView');
+  const score = overallScore();
+  const answered = totalAnswered();
+  const allDone = answered === TOTAL_Q;
+
+  // Section scores (only fully answered ones)
+  const sectionsWithScores = SECTIONS.map((s, i) => ({
+    idx: i,
+    title: s.title,
+    score: sectionScore(s),
+    complete: sectionAnswered(s) === s.questions.length
+  })).filter(s => s.complete);
+
+  const strengths = [...sectionsWithScores].sort((a, b) => b.score - a.score).slice(0, 5);
+  const gaps = [...sectionsWithScores].sort((a, b) => a.score - b.score).slice(0, 5);
+
+  let html = `
+    <div class="summary-header">
+      <div class="summary-eyebrow">Operational Readiness Summary</div>
+      <h1 class="summary-title">HVAC Business Assessment</h1>
+      <div class="summary-score-row">
+        <div class="summary-score-num">${answered === 0 ? '—' : score.toFixed(2)}</div>
+        <div class="summary-score-max">/ 5.00</div>
+        ${answered > 0 ? `<div class="summary-tier" style="background:${scoreColor(score)};color:#fff;">${scoreTier(score)}</div>` : ''}
+      </div>
+      <div class="summary-meta">${answered} of ${TOTAL_Q} questions answered · ${SECTIONS.length} sections</div>
+    </div>
+  `;
+
+  // Highlights
+  html += `<div class="summary-grid">`;
+
+  // Strengths
+  html += `<div class="highlight-card strengths">
+    <div class="highlight-head">▲ Top Strengths</div>
+    <ul class="highlight-list">`;
+  if (strengths.length === 0) {
+    html += `<li class="highlight-empty">Complete sections to see top strengths</li>`;
+  } else {
+    strengths.filter(s => s.score >= 3).forEach(s => {
+      html += `<li class="highlight-item">
+        <span class="highlight-score" style="background:${scoreColor(s.score)}">${s.score.toFixed(1)}</span>
+        <span>${s.title}</span>
+      </li>`;
+    });
+    if (strengths.filter(s => s.score >= 3).length === 0) {
+      html += `<li class="highlight-empty">No sections currently scoring at "Functional" or above</li>`;
+    }
+  }
+  html += `</ul></div>`;
+
+  // Gaps
+  html += `<div class="highlight-card gaps">
+    <div class="highlight-head">▼ Priority Gaps</div>
+    <ul class="highlight-list">`;
+  if (gaps.length === 0) {
+    html += `<li class="highlight-empty">Complete sections to see priority gaps</li>`;
+  } else {
+    gaps.filter(s => s.score < 3.5).forEach(s => {
+      html += `<li class="highlight-item">
+        <span class="highlight-score" style="background:${scoreColor(s.score)}">${s.score.toFixed(1)}</span>
+        <span>${s.title}</span>
+      </li>`;
+    });
+    if (gaps.filter(s => s.score < 3.5).length === 0) {
+      html += `<li class="highlight-empty">No sections currently below "Strong"</li>`;
+    }
+  }
+  html += `</ul></div>`;
+  html += `</div>`;
+
+  // Score table
+  html += `<div class="score-table">
+    <div class="score-table-head">
+      <div>#</div><div>Section</div><div>Score Bar</div><div>Score</div><div>Tier</div>
+    </div>`;
+  SECTIONS.forEach((sec, i) => {
+    const sc = sectionScore(sec);
+    const ans = sectionAnswered(sec);
+    const tot = sec.questions.length;
+    const complete = ans === tot;
+    const pct = complete ? (sc / 5) * 100 : 0;
+    html += `<div class="score-table-row">
+      <div class="row-num">${String(i + 1).padStart(2, '0')}</div>
+      <div class="row-title">${sec.title}</div>
+      <div class="row-bar"><div class="row-bar-fill ${complete ? scoreBgClass(sc) : 'score-color-0'}" style="width:${complete ? pct : 0}%;${!complete ? 'background:var(--gray-l2);' : ''}"></div></div>
+      <div class="row-score" style="color:${complete ? scoreColor(sc) : 'var(--mid)'}">${complete ? sc.toFixed(2) : '—'}</div>
+      <div class="row-tier ${complete ? scoreColorClass(sc) : ''}" ${!complete ? 'style="background:var(--gray-l2);color:var(--mid);"' : ''}>${complete ? scoreTier(sc) : `${ans}/${tot}`}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // CTA
+  html += `<div class="summary-cta">
+    <div class="cta-text">
+      <div class="cta-title">${allDone ? 'Assessment Complete' : 'Continue the Assessment'}</div>
+      <div class="cta-desc">${allDone
+        ? 'Generate the PDF report to share findings with stakeholders, or reset to start a new assessment.'
+        : `${TOTAL_Q - answered} questions remaining. Continue scoring to unlock full insights and PDF report.`
+      }</div>
+    </div>
+    <div class="cta-actions">
+      ${!allDone ? `<button class="cta-btn" onclick="goToSection(${state.currentSection})">Continue</button>` : ''}
+      <button class="cta-btn" onclick="openPdfModal()">Generate PDF</button>
+      <button class="cta-btn danger" onclick="openResetModal()">Reset</button>
+    </div>
+  </div>`;
+
+  view.innerHTML = html;
+}
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+function selectOption(qid, score) {
+  state.answers[qid] = score;
+  persistState();
+  renderHeader();
+  renderSidebar();
+  renderSection();
+}
+function saveNote(qid, value) {
+  state.notes[qid] = value;
+  persistState();
+}
+function goToSection(idx) {
+  state.currentSection = idx;
+  state.view = 'section';
+  document.getElementById('sectionView').style.display = '';
+  document.getElementById('summaryView').style.display = 'none';
+  persistState();
+  renderSidebar();
+  renderSection();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function nextSection() {
+  if (state.currentSection < SECTIONS.length - 1) goToSection(state.currentSection + 1);
+}
+function prevSection() {
+  if (state.currentSection > 0) goToSection(state.currentSection - 1);
+}
+function showSummary() {
+  state.view = 'summary';
+  document.getElementById('sectionView').style.display = 'none';
+  document.getElementById('summaryView').style.display = '';
+  persistState();
+  renderSidebar();
+  renderSummary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   MODALS
+============================================================ */
+function openPdfModal() {
+  const answered = totalAnswered();
+  const warning = document.getElementById('pdfWarning');
+  if (answered < TOTAL_Q) {
+    warning.style.display = 'block';
+    warning.textContent = `Note: only ${answered} of ${TOTAL_Q} questions are answered. The report will only include sections that are fully scored.`;
+  } else {
+    warning.style.display = 'none';
+  }
+  document.getElementById('pdfModal').classList.add('show');
+}
+function closePdfModal() { document.getElementById('pdfModal').classList.remove('show'); }
+function openResetModal() { document.getElementById('resetModal').classList.add('show'); }
+function closeResetModal() { document.getElementById('resetModal').classList.remove('show'); }
+function confirmReset() {
+  state = { answers: {}, notes: {}, currentSection: 0, view: 'section' };
+  persistState();
+  closeResetModal();
+  goToSection(0);
+}
+function resetAssessment() { openResetModal(); }
+
+/* ============================================================
+   PDF GENERATION
+============================================================ */
+function pdfSafe(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/[\u2192\u2794\u279C]/g, '->')
+    .replace(/[\u2190]/g, '<-')
+    .replace(/[\u2022]/g, '*')
+    .replace(/[\u00A0]/g, ' ')
+    .replace(/[^\x00-\x7F]/g, '');
+}
+
+function hexToRgb(hex) {
+  hex = hex.replace('#', '');
+  return [
+    parseInt(hex.slice(0, 2), 16),
+    parseInt(hex.slice(2, 4), 16),
+    parseInt(hex.slice(4, 6), 16)
+  ];
+}
+
+function generatePDF() {
+  if (typeof window.jspdf === 'undefined') {
+    alert('PDF library not loaded. Please refresh the page and try again.');
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+  const PW = 297, PH = 210;
+  const MARGIN = 14;
+  const CW = PW - MARGIN * 2;
+
+  const NAVY = hexToRgb('#0d1f36');
+  const NAVY2 = hexToRgb('#1a3a5c');
+  const TEAL = hexToRgb('#2ec4b6');
+  const AMBER = hexToRgb('#f4a621');
+  const DARK = hexToRgb('#1a2b40');
+  const MID = hexToRgb('#8493a8');
+  const DIVIDER = hexToRgb('#d4dde8');
+  const GRAY_L = hexToRgb('#f2f5f8');
+  const WHITE = [255, 255, 255];
+
+  doc.setFont('helvetica', 'normal');
+
+  // Helper functions
+  function setFill(rgb) { doc.setFillColor(rgb[0], rgb[1], rgb[2]); }
+  function setText(rgb) { doc.setTextColor(rgb[0], rgb[1], rgb[2]); }
+  function setDraw(rgb) { doc.setDrawColor(rgb[0], rgb[1], rgb[2]); }
+
+  function drawHeader(title, eyebrow) {
+    setFill(NAVY);
+    doc.rect(0, 0, PW, 18, 'F');
+    setText(TEAL);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.text(pdfSafe(eyebrow.toUpperCase()), MARGIN, 7);
+    setText(WHITE);
+    doc.setFontSize(13);
+    doc.text(pdfSafe(title), MARGIN, 14);
+    setText(TEAL);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    const tag = 'PANDO CONSULTING GROUP';
+    const tagW = doc.getTextWidth(tag);
+    doc.text(tag, PW - MARGIN - tagW, 11);
+  }
+
+  function drawFooter(pageNum, total) {
+    setDraw(DIVIDER);
+    doc.setLineWidth(0.2);
+    doc.line(MARGIN, PH - 10, PW - MARGIN, PH - 10);
+    setText(MID);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text(pdfSafe('HVAC Business Readiness Assessment'), MARGIN, PH - 6);
+    const pageStr = `${pageNum} / ${total}`;
+    const w = doc.getTextWidth(pageStr);
+    doc.text(pageStr, PW - MARGIN - w, PH - 6);
+  }
+
+  // Filter sections that are fully complete
+  const completeSections = SECTIONS.filter(s => sectionAnswered(s) === s.questions.length);
+  const totalPages = 2 + completeSections.length;
+  let pageNum = 1;
+
+  // ====================
+  // PAGE 1: COVER
+  // ====================
+  setFill(NAVY);
+  doc.rect(0, 0, PW, PH, 'F');
+
+  // Decorative arcs
+  setDraw(TEAL);
+  doc.setLineWidth(1.5);
+  doc.circle(PW - 20, PH - 20, 60, 'S');
+  doc.setLineWidth(0.8);
+  doc.circle(PW - 20, PH - 20, 80, 'S');
+
+  // Amber accent bar
+  setFill(AMBER);
+  doc.rect(MARGIN, 50, 40, 2, 'F');
+
+  // Eyebrow
+  setText(TEAL);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(10);
+  doc.text(pdfSafe('OPERATIONAL READINESS ASSESSMENT'), MARGIN, 45);
+
+  // Main title
+  setText(WHITE);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(36);
+  doc.text(pdfSafe('HVAC Business'), MARGIN, 75);
+  doc.text(pdfSafe('Readiness Report'), MARGIN, 90);
+
+  // Subtitle
+  setText(hexToRgb('#8aaccc'));
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(12);
+  doc.text(pdfSafe('Comprehensive operational, commercial, and transferability evaluation'), MARGIN, 102);
+
+  // Divider
+  setDraw(hexToRgb('#1e3f60'));
+  doc.setLineWidth(0.5);
+  doc.line(MARGIN, 115, MARGIN + 80, 115);
+
+  // Score block
+  const score = overallScore();
+  const answered = totalAnswered();
+
+  setText(TEAL);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text(pdfSafe('OVERALL READINESS SCORE'), MARGIN, 130);
+
+  setText(WHITE);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(48);
+  const scoreStr = answered > 0 ? score.toFixed(2) : '--';
+  doc.text(scoreStr, MARGIN, 152);
+
+  // "/ 5.00" — measure score width before changing font
+  const scoreW = doc.getTextWidth(scoreStr);
+  setText(hexToRgb('#8aaccc'));
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(16);
+  doc.text(' / 5.00', MARGIN + scoreW, 152);
+
+  // Tier badge
+  if (answered > 0) {
+    const tier = scoreTier(score);
+    const tierColor = hexToRgb(scoreColor(score));
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    const tierW = doc.getTextWidth(pdfSafe(tier)) + 12;
+    setFill(tierColor);
+    doc.roundedRect(MARGIN, 158, tierW, 9, 1.5, 1.5, 'F');
+    setText(WHITE);
+    doc.text(pdfSafe(tier), MARGIN + 6, 164.5);
+  }
+
+  // Footer info
+  setText(hexToRgb('#6a8aaa'));
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text(pdfSafe(`Sections Scored: ${completeSections.length} of ${SECTIONS.length}`), MARGIN, PH - 30);
+  doc.text(pdfSafe(`Questions Answered: ${answered} of ${TOTAL_Q}`), MARGIN, PH - 24);
+  const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  doc.text(pdfSafe(`Date: ${dateStr}`), MARGIN, PH - 18);
+  doc.text(pdfSafe('Prepared by Pando Consulting Group'), MARGIN, PH - 12);
+
+  pageNum++;
+
+  // ====================
+  // PAGE 2: HIGHLIGHTS
+  // ====================
+  doc.addPage();
+  setFill(GRAY_L);
+  doc.rect(0, 0, PW, PH, 'F');
+  drawHeader('Executive Highlights', 'Summary of Findings');
+
+  const sectionsWithScores = completeSections.map((s, i) => ({
+    idx: SECTIONS.indexOf(s),
+    title: s.title,
+    score: sectionScore(s)
+  }));
+
+  // Title block
+  setText(DARK);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text(pdfSafe('Top Strengths and Priority Gaps'), MARGIN, 30);
+
+  setText(MID);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  doc.text(pdfSafe('Highest- and lowest-scoring areas based on completed assessment data.'), MARGIN, 36);
+
+  // Two-column layout
+  const colY = 46;
+  const colW = (CW - 8) / 2;
+  const leftX = MARGIN;
+  const rightX = MARGIN + colW + 8;
+
+  // STRENGTHS COLUMN
+  setFill(WHITE);
+  setDraw(DIVIDER);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(leftX, colY, colW, 110, 2, 2, 'FD');
+  // Top accent bar
+  setFill(hexToRgb('#22c55e'));
+  doc.rect(leftX, colY, colW, 2.5, 'F');
+
+  setText(hexToRgb('#22c55e'));
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text(pdfSafe('TOP STRENGTHS'), leftX + 6, colY + 11);
+
+  setText(DARK);
+  doc.setFontSize(10);
+  const strengths = [...sectionsWithScores].filter(s => s.score >= 3).sort((a, b) => b.score - a.score).slice(0, 5);
+  let lineY = colY + 22;
+  if (strengths.length === 0) {
+    setText(MID);
+    doc.setFont('helvetica', 'italic');
+    doc.text(pdfSafe('No sections currently at "Functional" or above'), leftX + 6, lineY);
+  } else {
+    strengths.forEach((s, i) => {
+      const sBg = hexToRgb(scoreColor(s.score));
+      setFill(sBg);
+      doc.roundedRect(leftX + 6, lineY - 5, 14, 7, 1, 1, 'F');
+      setText(WHITE);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text(s.score.toFixed(1), leftX + 8, lineY);
+
+      setText(DARK);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      const titleLines = doc.splitTextToSize(pdfSafe(s.title), colW - 30);
+      doc.text(titleLines, leftX + 24, lineY);
+
+      lineY += Math.max(8, titleLines.length * 4) + 6;
+    });
+  }
+
+  // GAPS COLUMN
+  setFill(WHITE);
+  setDraw(DIVIDER);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(rightX, colY, colW, 110, 2, 2, 'FD');
+  setFill(hexToRgb('#ef4444'));
+  doc.rect(rightX, colY, colW, 2.5, 'F');
+
+  setText(hexToRgb('#ef4444'));
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  doc.text(pdfSafe('PRIORITY GAPS'), rightX + 6, colY + 11);
+
+  const gaps = [...sectionsWithScores].filter(s => s.score < 3.5).sort((a, b) => a.score - b.score).slice(0, 5);
+  lineY = colY + 22;
+  if (gaps.length === 0) {
+    setText(MID);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(10);
+    doc.text(pdfSafe('No sections currently below "Strong"'), rightX + 6, lineY);
+  } else {
+    gaps.forEach(s => {
+      const sBg = hexToRgb(scoreColor(s.score));
+      setFill(sBg);
+      doc.roundedRect(rightX + 6, lineY - 5, 14, 7, 1, 1, 'F');
+      setText(WHITE);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text(s.score.toFixed(1), rightX + 8, lineY);
+
+      setText(DARK);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      const titleLines = doc.splitTextToSize(pdfSafe(s.title), colW - 30);
+      doc.text(titleLines, rightX + 24, lineY);
+
+      lineY += Math.max(8, titleLines.length * 4) + 6;
+    });
+  }
+
+  // BOTTOM SECTION TABLE — all sections
+  const tableY = colY + 120;
+  setText(DARK);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text(pdfSafe('All Sections — Score Overview'), MARGIN, tableY);
+
+  // Table columns
+  const COL = {
+    numX: MARGIN + 4,
+    titleX: MARGIN + 16,
+    barX: MARGIN + 130,
+    scoreX: MARGIN + 220,
+    ratingX: MARGIN + 240
+  };
+  const tableHeadY = tableY + 6;
+  setFill(NAVY);
+  doc.rect(MARGIN, tableHeadY, CW, 7, 'F');
+  setText(WHITE);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.text('#', COL.numX, tableHeadY + 4.5);
+  doc.text('SECTION', COL.titleX, tableHeadY + 4.5);
+  doc.text('SCORE BAR', COL.barX, tableHeadY + 4.5);
+  doc.text('SCORE', COL.scoreX, tableHeadY + 4.5);
+  doc.text('TIER', COL.ratingX, tableHeadY + 4.5);
+
+  let rowY = tableHeadY + 7;
+  const rowH = 5;
+  SECTIONS.forEach((sec, i) => {
+    const sc = sectionScore(sec);
+    const ans = sectionAnswered(sec);
+    const complete = ans === sec.questions.length;
+    if (i % 2 === 0) {
+      setFill(GRAY_L);
+      doc.rect(MARGIN, rowY, CW, rowH, 'F');
+    }
+    setText(MID);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.text(String(i + 1).padStart(2, '0'), COL.numX, rowY + 3.5);
+    setText(DARK);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    const titleStr = pdfSafe(sec.title);
+    const truncated = titleStr.length > 52 ? titleStr.slice(0, 50) + '..' : titleStr;
+    doc.text(truncated, COL.titleX, rowY + 3.5);
+    // Bar
+    setFill(hexToRgb('#e8eef4'));
+    doc.rect(COL.barX, rowY + 1.5, 80, 2.5, 'F');
+    if (complete) {
+      const fillColor = hexToRgb(scoreColor(sc));
+      setFill(fillColor);
+      doc.rect(COL.barX, rowY + 1.5, 80 * (sc / 5), 2.5, 'F');
+    }
+    // Score
+    if (complete) {
+      setText(hexToRgb(scoreColor(sc)));
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8.5);
+      doc.text(sc.toFixed(2), COL.scoreX, rowY + 3.5);
+      // Tier
+      const tierColor = hexToRgb(scoreColor(sc));
+      const tierTxt = scoreTier(sc);
+      doc.setFontSize(7);
+      const tw = doc.getTextWidth(pdfSafe(tierTxt)) + 4;
+      setFill(tierColor);
+      doc.roundedRect(COL.ratingX, rowY + 0.8, tw, 3.5, 0.6, 0.6, 'F');
+      setText(WHITE);
+      doc.setFont('helvetica', 'bold');
+      doc.text(pdfSafe(tierTxt), COL.ratingX + 2, rowY + 3.4);
+    } else {
+      setText(MID);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text(`${ans}/${sec.questions.length}`, COL.scoreX, rowY + 3.5);
+      doc.text('Pending', COL.ratingX, rowY + 3.5);
+    }
+    rowY += rowH;
+  });
+
+  drawFooter(pageNum, totalPages);
+  pageNum++;
+
+  // ====================
+  // SECTION DETAIL PAGES
+  // ====================
+  completeSections.forEach((sec) => {
+    doc.addPage();
+    setFill(GRAY_L);
+    doc.rect(0, 0, PW, PH, 'F');
+    const secIdx = SECTIONS.indexOf(sec);
+    drawHeader(sec.title, `Section ${secIdx + 1} Detail`);
+
+    const sc = sectionScore(sec);
+    const tier = scoreTier(sc);
+    const tColor = hexToRgb(scoreColor(sc));
+
+    // Score banner
+    setFill(WHITE);
+    setDraw(DIVIDER);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(MARGIN, 24, CW, 22, 2, 2, 'FD');
+
+    // Left: title block
+    setText(TEAL);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text(pdfSafe(`SECTION ${String(secIdx + 1).padStart(2, '0')}`), MARGIN + 6, 32);
+    setText(DARK);
+    doc.setFontSize(15);
+    doc.text(pdfSafe(sec.title), MARGIN + 6, 41);
+
+    // Right: score
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    setText(MID);
+    const scoreLabel = 'SCORE';
+    const slW = doc.getTextWidth(scoreLabel);
+    doc.text(scoreLabel, PW - MARGIN - 60, 31);
+
+    setText(tColor);
+    doc.setFontSize(22);
+    const scoreText = sc.toFixed(2);
+    const scoreTextW = doc.getTextWidth(scoreText);
+    doc.text(scoreText, PW - MARGIN - 50, 41);
+
+    // "/ 5" after score
+    setText(MID);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.text(' / 5', PW - MARGIN - 50 + scoreTextW, 41);
+
+    // Tier pill
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    const tierW = doc.getTextWidth(pdfSafe(tier)) + 6;
+    setFill(tColor);
+    doc.roundedRect(PW - MARGIN - tierW - 4, 28, tierW, 6, 1, 1, 'F');
+    setText(WHITE);
+    doc.text(pdfSafe(tier), PW - MARGIN - tierW - 1, 32);
+
+    // Question table
+    const tCol = {
+      numX: MARGIN + 4,
+      qX: MARGIN + 14,
+      barX: MARGIN + 170,
+      scoreX: MARGIN + 220,
+      ratingX: MARGIN + 240
+    };
+    let qy = 54;
+
+    setFill(NAVY);
+    doc.rect(MARGIN, qy, CW, 7, 'F');
+    setText(WHITE);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.text('Q#', tCol.numX, qy + 4.5);
+    doc.text('QUESTION & RESPONSE', tCol.qX, qy + 4.5);
+    doc.text('SCORE BAR', tCol.barX, qy + 4.5);
+    doc.text('SCORE', tCol.scoreX, qy + 4.5);
+    doc.text('TIER', tCol.ratingX, qy + 4.5);
+    qy += 7;
+
+    sec.questions.forEach((q, qi) => {
+      const ans = state.answers[q.id];
+      const note = state.notes[q.id] || '';
+      const tierColor = hexToRgb(scoreColor(ans));
+
+      // Calculate row height
+      doc.setFontSize(8);
+      const qLines = doc.splitTextToSize(pdfSafe(q.label), 150);
+      const respText = pdfSafe(q.options[ans - 1]);
+      const respLines = doc.splitTextToSize(respText, 150);
+      let noteLines = [];
+      if (note) {
+        noteLines = doc.splitTextToSize('Notes: ' + pdfSafe(note), 150);
+      }
+      const totalLines = qLines.length + respLines.length + noteLines.length;
+      const rowHeight = Math.max(14, 4 + totalLines * 3.4 + (note ? 2 : 0));
+
+      // Page break if needed
+      if (qy + rowHeight > PH - 14) {
+        drawFooter(pageNum, totalPages);
+        doc.addPage();
+        pageNum++;
+        setFill(GRAY_L);
+        doc.rect(0, 0, PW, PH, 'F');
+        drawHeader(sec.title + ' (continued)', `Section ${secIdx + 1} Detail`);
+        qy = 26;
+        setFill(NAVY);
+        doc.rect(MARGIN, qy, CW, 7, 'F');
+        setText(WHITE);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.text('Q#', tCol.numX, qy + 4.5);
+        doc.text('QUESTION & RESPONSE', tCol.qX, qy + 4.5);
+        doc.text('SCORE BAR', tCol.barX, qy + 4.5);
+        doc.text('SCORE', tCol.scoreX, qy + 4.5);
+        doc.text('TIER', tCol.ratingX, qy + 4.5);
+        qy += 7;
+      }
+
+      // Row bg
+      if (qi % 2 === 0) {
+        setFill(GRAY_L);
+        doc.rect(MARGIN, qy, CW, rowHeight, 'F');
+      } else {
+        setFill(WHITE);
+        doc.rect(MARGIN, qy, CW, rowHeight, 'F');
+      }
+
+      // Q num
+      setText(MID);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7.5);
+      doc.text(`Q${qi + 1}`, tCol.numX, qy + 5);
+
+      // Question text
+      setText(DARK);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text(qLines, tCol.qX, qy + 4.5);
+      let txtY = qy + 4.5 + qLines.length * 3.4;
+
+      // Response
+      setText(tierColor);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.text(respLines, tCol.qX, txtY);
+      txtY += respLines.length * 3.2;
+
+      // Notes
+      if (note) {
+        setText(MID);
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(7);
+        doc.text(noteLines, tCol.qX, txtY + 1);
+      }
+
+      // Score bar
+      const barCenterY = qy + rowHeight / 2;
+      setFill(hexToRgb('#e8eef4'));
+      doc.rect(tCol.barX, barCenterY - 1.25, 40, 2.5, 'F');
+      setFill(tierColor);
+      doc.rect(tCol.barX, barCenterY - 1.25, 40 * (ans / 5), 2.5, 'F');
+
+      // Score number
+      setText(tierColor);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.text(String(ans), tCol.scoreX, barCenterY + 1);
+
+      // Tier pill
+      const tierName = scoreTier(ans);
+      doc.setFontSize(6.5);
+      const tw = doc.getTextWidth(pdfSafe(tierName)) + 4;
+      setFill(tierColor);
+      doc.roundedRect(tCol.ratingX, barCenterY - 2, tw, 4, 0.6, 0.6, 'F');
+      setText(WHITE);
+      doc.setFont('helvetica', 'bold');
+      doc.text(pdfSafe(tierName), tCol.ratingX + 2, barCenterY + 0.7);
+
+      qy += rowHeight;
+    });
+
+    drawFooter(pageNum, totalPages);
+    pageNum++;
+  });
+
+  // Save
+  const dateSlug = new Date().toISOString().slice(0, 10);
+  doc.save(`HVAC-Business-Readiness-Assessment_${dateSlug}.pdf`);
+  closePdfModal();
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+function init() {
+  storageAvailable = checkStorage();
+  if (!storageAvailable) {
+    document.getElementById('storageWarning').classList.add('show');
+  }
+  loadState();
+  renderHeader();
+  renderSidebar();
+  if (state.view === 'summary') {
+    document.getElementById('sectionView').style.display = 'none';
+    document.getElementById('summaryView').style.display = '';
+    renderSummary();
+  } else {
+    renderSection();
+  }
+
+  // Safety net: write final state on page close/refresh
+  window.addEventListener('beforeunload', () => {
+    if (storageAvailable) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+  });
+
+  // Click outside modal to close
+  document.getElementById('pdfModal').addEventListener('click', (e) => {
+    if (e.target.id === 'pdfModal') closePdfModal();
+  });
+  document.getElementById('resetModal').addEventListener('click', (e) => {
+    if (e.target.id === 'resetModal') closeResetModal();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
